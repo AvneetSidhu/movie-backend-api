@@ -2,13 +2,24 @@ import secrets
 from flask import Flask, request
 from movieClient import MovieClient
 from secret import * 
+from flask_httpauth import HTTPBasicAuth
 import json
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+users = {ADMIN_USER: generate_password_hash(ADMIN_PASS)}
 
 movieClient = MovieClient(API_KEY,BASE_URL)
 
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users.get(username), password):
+        return username
+
 @app.route("/")
+@auth.login_required
 def health():
     return "healthy"
 
