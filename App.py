@@ -57,5 +57,6 @@ def getSearchResults():
     jsonFormat = json.loads(content)
     return json.dumps(jsonFormat['results'][0:20]), 200
     
-
+if __name__ == '__main__':
+    app.run()
 
