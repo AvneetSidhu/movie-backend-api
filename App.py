@@ -24,6 +24,7 @@ def health():
     return "healthy"
 
 @app.route("/get-popular-movies")
+@auth.login_required
 def getPopularMovies():
     result = movieClient.getReq(BASE_URL + '3/movie/popular?api_key=' + API_KEY + '&language=en-US&page=1')
     content = result.content.decode("utf-8")
@@ -31,6 +32,7 @@ def getPopularMovies():
     return json.dumps(jsonFormat['results']), 200
 
 @app.route("/get-similar-movies")
+@auth.login_required
 def getSimilarMovies():
     id = str(request.args.get('id'))
     result = movieClient.getReq(BASE_URL + '3/movie/' + id + '/similar?api_key=' + API_KEY + '&language=en-US&page=1')
@@ -39,6 +41,7 @@ def getSimilarMovies():
     return json.dumps(jsonFormat['results'][0:5]), 200
 
 @app.route("/get-movie")
+@auth.login_required
 def getMovieByID():
     id = str(request.args.get('id'))
     result = movieClient.getReq(BASE_URL + '3/movie/' + id + '?api_key=' + API_KEY + '&language=en-US&page=1')
@@ -46,6 +49,7 @@ def getMovieByID():
     return content, 200
 
 @app.route("/get-search-results")
+@auth.login_required
 def getSearchResults():
     query = request.args.get('query')
     result = movieClient.getReq(BASE_URL + '3/search/movie?api_key=' + API_KEY + '&language=en-US&query=' + query + '&page=1&include_adult=false')
