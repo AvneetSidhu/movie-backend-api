@@ -5,7 +5,7 @@ import logging
 class MovieClient(object):
 
     def __init__(self,APIKEY,BASEURL):
-        # super(MovieClient, self).__init__()
+
         self.key = APIKEY
         self.baseURL = BASEURL
 
